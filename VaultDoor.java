@@ -1,11 +1,14 @@
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.*;
 
 public class VaultDoor {
-	// Solutions to Vault Door 1, 3 & 4
+	// Solutions to Vault Door 1 & 3
 	
-	public static void descramble() {
-	   char[] password = new char[32];
-	   password[0] = 'd';
-	   password[29] = '4';
+	public static void vaultDoor1() {
+		char[] password = new char[32];
+		password[0] = 'd';
+		password[29] = '4';
 	    password[4] = 'r';
 	    password[2] = '5';
 	    password[23] = 'r';
@@ -41,7 +44,7 @@ public class VaultDoor {
 	    }
 	}
 
-	public static String thisIsDumb() {
+	public static String vaultDoor3() {
 		String password = "jU5t_a_sna_3lpm13g34c_u_4_m3rf48";
 		char[] buffer = new char[32];
         int i;
@@ -62,7 +65,7 @@ public class VaultDoor {
 		return s;
 	}
 	
-	public static String checkPassword() {
+	public static String vaultDoor4() {
 		
         byte[] myBytes = {
             106 , 85  , 53  , 116 , 95  , 52  , 95  , 98  ,
@@ -80,8 +83,36 @@ public class VaultDoor {
 		return null;
         
     }
+	
+	// Vault Door 5
+	public String base64Encode(byte[] input) {
+        return Base64.getEncoder().encodeToString(input);
+    }
+
+    // URL encoding is meant for web pages, so any double agent spies who steal
+    // our source code will think this is a web site or something, defintely not
+    // vault door! Oh wait, should I have not said that in a source code
+    // comment?
+    //
+    // -Minion #2415
+    public String urlEncode(byte[] input) {
+        StringBuffer buf = new StringBuffer();
+        for (int i=0; i<input.length; i++) {
+            buf.append(String.format("%%%2x", input[i]));
+        }
+        return buf.toString();
+    }
+
+    public boolean checkPassword(String password) {
+        String urlEncoded = urlEncode(password.getBytes());
+        String base64Encoded = base64Encode(urlEncoded.getBytes());
+        String expected = "JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
+                        + "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2"
+                        + "JTM0JTVmJTY0JTYyJTM2JTM5JTM0JTM2JTYyJTYx";
+        return base64Encoded.equals(expected);
+    }
 	public static void main(String[] args) {
-		System.out.println(thisIsDumb());
+		System.out.println(vaultDoor4());
 	}
 
 }
