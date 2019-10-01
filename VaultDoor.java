@@ -1,11 +1,11 @@
 
 public class VaultDoor {
-	// Solutions to Vault Door 1 & 3
+	// Solutions to Vault Door 1, 3 & 4
 	
 	public static void descramble() {
-		char[] password = new char[32];
-		password[0] = 'd';
-		password[29] = '4';
+	   char[] password = new char[32];
+	   password[0] = 'd';
+	   password[29] = '4';
 	    password[4] = 'r';
 	    password[2] = '5';
 	    password[23] = 'r';
@@ -61,6 +61,25 @@ public class VaultDoor {
 		
 		return s;
 	}
+	
+	public static String checkPassword() {
+		
+        byte[] myBytes = {
+            106 , 85  , 53  , 116 , 95  , 52  , 95  , 98  ,
+            0x55, 0x6e, 0x43, 0x68, 0x5f, 0x30, 0x66, 0x5f,
+            0142, 0131, 0164, 063 , 0163, 0137, 067 , 0141,
+            '1' , 'c' , '8' , 'c' , '6' , '6' , '8' , 'b' ,
+        };
+        String password;
+		try {
+			password = new String(myBytes, "UTF-8");
+			return password;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
+        
+    }
 	public static void main(String[] args) {
 		System.out.println(thisIsDumb());
 	}
