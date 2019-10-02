@@ -82,6 +82,12 @@ public class VaultDoor {
 
 	// Vault Door 5
 	// (A better GUI tool can be found at https://encoding.tools)
+	public static String vaultDoor5() {
+		String expected = "JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
+				+ "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2" + 
+				"JTM0JTVmJTY0JTYyJTM2JTM5JTM0JTM2JTYyJTYx";
+		return urlDecode(base64Decode(expected));
+	}
 	public static String base64Encode(byte[] input) {
 		return Base64.getEncoder().encodeToString(input);
 	}
@@ -127,10 +133,7 @@ public class VaultDoor {
 	}
 
 	public static void main(String[] args) {
-		String expected = "JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
-				+ "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2" + 
-				"JTM0JTVmJTY0JTYyJTM2JTM5JTM0JTM2JTYyJTYx";
-		System.out.println(urlDecode(base64Decode(expected)));
+		System.out.println(vaultDoor5());
 	}
 
 }
