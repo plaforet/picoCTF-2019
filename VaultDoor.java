@@ -88,6 +88,29 @@ public class VaultDoor {
 				"JTM0JTVmJTY0JTYyJTM2JTM5JTM0JTM2JTYyJTYx";
 		return urlDecode(base64Decode(expected));
 	}
+	
+	public static String vaultDoor6() {
+		byte[] myBytes = {
+	            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+	            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+	            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+	            0xa , 0x34, 0x30, 0x31, 0x30, 0x36, 0x30, 0x31,
+	        };
+		byte[] passBytes = new byte[32];
+		
+		for(int i=0; i<passBytes.length; i++) {
+			passBytes[i] = (byte) (myBytes[i] ^ 0x55);
+		}
+		
+		try {
+			return new String(passBytes, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			System.out.println("Unsupported Encoding");
+			return null;
+		}
+		
+	}
+
 	public static String base64Encode(byte[] input) {
 		return Base64.getEncoder().encodeToString(input);
 	}
@@ -123,17 +146,34 @@ public class VaultDoor {
 
 	
 
-	public static boolean checkPassword(String password) {
-		String urlEncoded = urlEncode(password.getBytes());
-		String base64Encoded = base64Encode(urlEncoded.getBytes());
-		String expected = "JTYzJTMwJTZlJTc2JTMzJTcyJTc0JTMxJTZlJTY3JTVm"
-				+ "JTY2JTcyJTMwJTZkJTVmJTYyJTYxJTM1JTY1JTVmJTM2" + 
-				"JTM0JTVmJTY0JTYyJTM2JTM5JTM0JTM2JTYyJTYx";
-		return base64Encoded.equals(expected);
-	}
+	// Dr. Evil gave me a book called Applied Cryptography by Bruce Schneier,
+    // and I learned this really cool encryption system. This will be the
+    // strongest vault door in Dr. Evil's entire evil volcano compound for sure!
+    // Well, I didn't exactly read the *whole* book, but I'm sure there's
+    // nothing important in the last 750 pages.
+    //
+    // -Minion #3091
+    public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        byte[] passBytes = password.getBytes();
+        byte[] myBytes = {
+            0x3b, 0x65, 0x21, 0xa , 0x38, 0x0 , 0x36, 0x1d,
+            0xa , 0x3d, 0x61, 0x27, 0x11, 0x66, 0x27, 0xa ,
+            0x21, 0x1d, 0x61, 0x3b, 0xa , 0x2d, 0x65, 0x27,
+            0xa , 0x34, 0x30, 0x31, 0x30, 0x36, 0x30, 0x31,
+        };
+        for (int i=0; i<32; i++) {
+            if (((passBytes[i] ^ 0x55) - myBytes[i]) != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 	public static void main(String[] args) {
-		System.out.println(vaultDoor5());
+		System.out.println(vaultDoor6());
 	}
 
 }
